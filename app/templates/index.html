@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {{ super() }}
+  <article>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" width="1"></th>
+          <th scope="col" width="5">Qts.</th>
+          <th scope="col" width="10">Unid.</th>
+          <th scope="col" width="83">Nome do produto</th>
+          <th scope="col" width="1">Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          {% if item.priority == "Normal" %}
+            <th><i class="fas fa-star-half-alt"></i></th>
+          {% elif item.priority == "Urgente" %}
+            <th><i class="fas fa-star"></i></th>
+          {% else %}
+            <th><i class="far fa-star"></i></th>
+          {% endif %}
+          <th>{{ item.quantity }}</th>
+          <td>{{ item.type }}</td>
+          <td>{{ item.name }}</td>
+          <td><a href="{{ url_for('delete', id=item.id) }}"><i class="fas fa-check"></i>x</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </article>
+
+  <aside>
+    <form action="" method="POST">
+      {{ form.csrf_token }}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.quantity.label(class="form-control-label") }}
+          {{ form.quantity(class="form-control") }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.type.label(class="form-control-label") }}
+          {{ form.type(class="form-control") }}
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        {{ form.name.label(class="form-control-label") }}
+        {{ form.name(class="form-control") }}
+      </div>
+      <div class="form-group col-md-12">
+        {{ form.priority.label(class="form-control-label") }}
+        {{ form.priority(class="form-control") }}
+      </div>
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+    </form>
+  </aside>
+{% endblock %}
